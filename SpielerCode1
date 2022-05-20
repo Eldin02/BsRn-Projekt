@@ -1,0 +1,23 @@
+
+Spieler1 = 1
+Spieler2 = 2
+
+
+print("Willkommen zum Schlachtfeld!")
+print("Seid bereit auf die Schlacht eures Lebens!")
+
+print("Spieler1: ")
+Spieler_1_Reihe_Auswahl = int(input("Wählen sie eine Reihe aus")) - 1
+Spieler_1_Spalte_Auswahl = int(input("Wählen sie eine Spalte aus")) - 1
+
+print("Spieler2: ")
+Spieler_2_Reihe_Auswahl = int(input("Wählen sie eine Reihe aus")) - 2
+Spieler_2_Spalte_Auswahl = int(input("Wählen sie eine Spalte aus")) - 2
+
+for reihe in range(8):
+    print("Zug"), reihe + 1
+    Spieler1_Reihe_Auswahl = int(input("Wählen sie eine Reihe aus")) - 1
+    Spieler1_Spalte_Auswahl = int(input("Wählen sie eine Spalte aus")) - 1
+
+
+
