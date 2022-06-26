@@ -1,0 +1,200 @@
+Spielbrett = []  # Spielbrett array
+Zeige_Spielbrett = []  # Konsolen Spielbrett
+Schiff1 = []  # Schiff 1 Array
+Schiff2 = []  # Schiff 2 Array
+
+Spieler1 = {  # Attribute für Spieler 1
+    "name": "Player 1",
+    "wins": 0,
+    'count': 0,
+    'guess': []
+}
+
+Spieler2 = {  # Attribute für Spieler 2
+    "name": "Player 2",
+    "wins": 0,
+    'count': 0,
+    'guess': []
+}
+
+Farben = {  # Spielbrett und Textausgaben Farben
+    "reset": "\033[00m",  # Normale weiße Farbe
+    "red": "\033[91m",  # Rote Farbe
+    "blue": "\033[94m",
+    "cyan": "\033[96m",
+}
+
+
+# 5 x 5 Spielbrett erstellen
+def erstelle_spielbrett(brett):
+    for item in range(5):
+        brett.append(["-"] * 5)
+
+
+# Spielbrett für die Konsole
+def zeige_spielbrett(brett):
+    for row in brett:
+        print(" ".join(row))
+
+
+def Schiffeingabe1(Name, brett):  # Eingabe für die Postionen der Schiffe für Spieler 1
+    print(f"{Name} Gebe Sie die Positionen von Schiff 1 und 2 ein: ")  # print Abfrage für Position
+    S1_Schiff_Reihe1 = int(input("Geben Sie die Reihe vom ersten Schiff ein: ")) - 1  # Input für Zeile von Schiff 1 und -1 da Programm bei 0 anfängt zu zählen
+    S1_Schiff_Spalte1 = int(input("Geben Sie die Spalte vom ersten Schiff ein: ")) - 1  # Input für Spalte von Schiff 1 und -1 da Programm bei 0 anfängt zu zählen
+    S1_Schiff_Reihe2 = int(input("Geben Sie die Reihe vom zweiten Schiff ein: ")) - 1  # Input für Zeile von Schiff 2 und -1 da Programm bei 0 anfängt zu zählen
+    S1_Schiff_Spalte2 = int(input("Geben Sie die Spalte vom zweiten Schiff ein: ")) - 1  # Input für Spalte von Schiff 2 und -1 da Programm bei 0 anfängt zu zählen
+    # if (S1_Schiff_Reihe1 >5) or (S1_Schiff_Spalte1 > 5) or (S1_Schiff_Reihe2 > 5) or (S1_Schiff_Spalte2 > 5):
+    #   print("Das Schiff ist nicht im Spielbrett.")
+    #   Schiffeingabe1(Name, brett)
+    if S1_Schiff_Reihe1 == S1_Schiff_Reihe2 and S1_Schiff_Spalte1 == S1_Schiff_Spalte2:  #If Anweisung für Überlappen der Schiffe
+        print("Gleiche Position der Schiffe ist nicht möglich. Geben Sie erneut die Positionen ein: ")  #Print ausgabe falls Überlappung
+        Schiffeingabe1(Name, brett)
+        Schiff1.extend(
+        (S1_Schiff_Reihe1, S1_Schiff_Spalte1, S1_Schiff_Reihe2, S1_Schiff_Spalte2))  # Schiffe auf dem Brett platzieren
+    for i in range(5):
+        brett.append(["-"] * 5)
+    brett[S1_Schiff_Reihe1][S1_Schiff_Spalte1] = 'S'  # 'S' platzierter String für Schiff 1 auf dem Board
+    brett[S1_Schiff_Reihe2][S1_Schiff_Spalte2] = 'S'  # 'S' platzierter String für Schiff 1 auf dem Board
+    print(Farben['blue'])  # Blaue Farbe für Spielbrett
+    zeige_spielbrett(brett)  # Spielbrett anzeigen
+    print(Farben['reset'])  # Input eingabe wird auf eine normale Farbe zurückgesetzt, um es besser zu veranschaulichen
+    del brett[:]  # Brett werte löschen
+
+
+# Selbe Methode wie Schiffeingabe1 nur für Schiff2 zwei
+def Schiffeingabe2(name, brett):  # Eingabe für die Postionen der Schiffe für Spieler 2
+    print(f"{name} Gebe Sie die Positionen von Schiff 1 und 2 ein: ")
+    S2_Schiff_Reihe1 = int(input("Geben Sie die Reihe vom ersten Schiff ein: ")) - 1
+    S2_Schiff_Spalte1 = int(input("Geben Sie die Spalte vom ersten Schiff ein: ")) - 1
+    S2_Schiff_Reihe2 = int(input("Geben Sie die Reihe vom zweiten Schiff ein: ")) - 1
+    S2_Schiff_Spalte2 = int(input("Geben Sie die Spalte vom zweiten Schiff ein: ")) - 1
+    # if (S2Schiff_Reihe1 > 5) or (S2_Schiff_Spalte1 > 5) or (S2_Schiff_Reihe2 > 5) or (S2_Schiff_Spalte2 > 5):
+    #   print("Das Schiff ist nicht im Spielbrett.")
+    #   Schiffeingabe2(Name, brett)
+    if S2_Schiff_Reihe1 == S2_Schiff_Reihe2 and S2_Schiff_Spalte1 == S2_Schiff_Spalte2:
+        print("Gleiche Position der Schiffe ist nicht möglich. Geben Sie erneut die Positionen ein:")
+        Schiffeingabe2(name, brett)
+    Schiff2.extend((S2_Schiff_Reihe1, S2_Schiff_Spalte1, S2_Schiff_Reihe2, S2_Schiff_Spalte2))
+    for i in range(5):
+        brett.append(['-'] * 5)
+    brett[S2_Schiff_Reihe1][S2_Schiff_Spalte1] = 'S'
+    brett[S2_Schiff_Reihe2][S2_Schiff_Spalte2] = 'S'
+    print(Farben['blue'])
+    zeige_spielbrett(brett)
+    print(Farben['reset'])
+    del brett[:]
+
+
+# Erste Methode die was in der Konsole anzeigt
+def Spiel_laden(brett):
+    print("WILLKOMMEN IM SPIEL SCHIFFEVERSENKEN!")  # Willkommens Gruß an den Spieler
+    print("SCHAFFE ES ALLE SCHIFFE DEINES GEGNERS ZU VERSENKEN!")  # Spielanweisung an dem Spieler
+    # del brett[:]
+    erstelle_spielbrett(brett)  # Brett erstellen
+    print(Farben['blue'])  # Spielbrett blaue Farbe geben
+    zeige_spielbrett(brett)  # Brett in der Konsole anzeigen
+    print(Farben['reset'])  # Wieder auf eine normale Farbe zurücksetzen für die Veranschaulichung
+    Schiffeingabe1(Spieler1["name"], Zeige_Spielbrett)  # Spieler 1 anzeigen + das Spielbrett
+    Schiffeingabe2(Spieler2["name"], Zeige_Spielbrett)  # Spieler 2 anzeigen + das Spielbrett
+
+
+Spiel_laden(Spielbrett)
+
+
+# Spieler werden abwechselnd Züge nehmen
+def Spielerzüge(gesamte_züge):
+    if gesamte_züge % 2 == 0:  # Für alle geraden Zahlen (Züge) ist Spieler 1 dran, weil es bei 0 anfängt zu zählen
+        # gesamte_züge += 1
+        return Spieler1
+
+    return Spieler2  # Für alle ungerade Zahlen ist Spieler 2 dran, da es bei 0 anfängt zu zählen
+
+
+
+def Eingabe_überprüfung(Schiffliste, Spieler, brett):
+    geratene_Spalte = 0
+    geratene_reihe = 0
+
+    while True:
+        try:
+            geratene_reihe = int(input("Reihe:")) - 1
+            geratene_Spalte = int(input("Spalte:")) - 1
+        except ValueError:
+            print("Geben Sie bitte nur Zahlen ein: ")
+            continue
+        else:
+            break
+
+    nicht_im_Spielbrett = (geratene_reihe < 0 or geratene_reihe > 4) or (
+                geratene_Spalte < 0 or geratene_Spalte > 4)
+
+    if ((geratene_reihe == int(Schiffliste[0]) and geratene_Spalte == int(Schiffliste[1])) or
+        (geratene_reihe == int(Schiffliste[2]) and geratene_Spalte == int(Schiffliste[3]))) and \
+            ((geratene_reihe not in Spieler['guess'] and geratene_Spalte not in Spieler['guess'])):
+        Spieler['guess'].extend((geratene_reihe, geratene_Spalte))
+        Spieler['count'] += 1
+        print(f"{Spieler['name']} hat {Spieler['count']} Schiffe getroffen")
+        if Spieler['count'] == 2:
+            print(f"{Spieler['name']} gewinnt diese Runde")
+            Spieler["wins"] += 1
+            print('Der Punktestand beträgt  %d : %d (Spieler1 : Spieler2)' % (
+            Spieler1["wins"], Spieler2["wins"]))
+            print("Danke fürs spielen!")
+            exit()
+        brett[geratene_reihe][geratene_Spalte] = 'S'
+        print(Farben['cyan'])
+        zeige_spielbrett(Spielbrett)
+        print(Farben['reset'])
+
+    elif 1:
+        if nicht_im_Spielbrett:
+            print("Pech gehabt, außerhalb des Spielfelds! ;)")
+            #Eingabe_überprüfung(Schiffliste,Spieler,brett)
+            #del brett[:]
+
+        else:
+            if (geratene_reihe not in Spieler['guess'] and geratene_Spalte not in Spieler['guess']):
+
+
+                print("Du hast mein Schiff verfehlt!")
+                if Spieler == Spieler1:
+                    brett[geratene_reihe][geratene_Spalte] = "X"
+                else:
+                    brett[geratene_reihe][geratene_Spalte] = "Y"
+
+        print(Farben['cyan'])
+        zeige_spielbrett(Spielbrett)
+        print(Farben['reset'])
+
+
+
+
+begin = input("Schreibe 'start' um das Spiel zu beginnen: ")  # Start eingeben, um das Spiel zu starten
+
+while (begin != str('start')):  # Abfrage geht solange weiter, bis ein "start" eingeben wird, erst dann beginnt das Spiel
+    begin = input("Schreibe 'start' um das Spiel zu beginnen: ")
+
+
+def main():
+    for gesamte_züge in range(10):  # Gesamte Anzahl der Züge beträgt 10, das heißt jeder Spieler hat 5 Züge
+
+        if Spielerzüge(gesamte_züge) == Spieler1:  # Wenn Spieler 1 dran ist, dann wird der Name: "Spieler1" ausgegeben
+
+            print("Spieler 1")
+
+            Eingabe_überprüfung(Schiff2, Spieler1, Spielbrett)
+
+        elif Spielerzüge(gesamte_züge) == Spieler2:  # Selbe Logik wie oben genannt, nur für Spieler 2
+            print("Spieler 2")
+            Eingabe_überprüfung(Schiff1, Spieler2,Spielbrett)  # Genauso dasselbe hier, Spieler 2 darf nicht auf seine eigene Schiffe schießen
+
+        if gesamte_züge == 9:  # Gesamte Züge bei 10, aber da steht 9 ,da es bei 0 anfängt zu zählen
+            print("Das Spiel ist ein Unentschieden, da alle vorhandenen Züge ausgenutzt wurden.")  # Unentschieden wenn 10 Züge passiert
+            print(Farben['red'])  # Brett kriegt rote Farbe falls ein Unentschieden
+            zeige_spielbrett(Spielbrett)  # Brett wird angezeigt
+            print(Farben['reset'])  # Farbe wird auf normal zurückgesetzt
+            # print('Der Punktestand beträgt %d : %d (Player1 : Player2)' % (Spieler1["wins"], Spieler2["wins"]))
+
+
+if __name__ == "__main__":
+    main()
